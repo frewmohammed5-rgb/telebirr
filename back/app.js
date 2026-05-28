@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const http = require("http");
+const https = require("https");
 const WebSocket = require("ws");
 const config = require("./config/config");
 
@@ -51,7 +52,7 @@ app.post("/apply/h5token", function (req, res) {
   };
   
   // 3. Initialize the request
-  const req_ = http.request(options, (res_) => {
+  const req_ = https.request(options, (res_) => {
     let responseData = '';
   
     // Consume response data in chunks
@@ -104,7 +105,7 @@ app.post("/api/v1/notify", (req, res) => {
 
 app.get("/test", (req, res) => {
   // Handle your notification logic here
-  res.status(200).json({ body: req.body });
+  res.status(200).json({ body: {a:1,b:2} });
 });
 
 // Start server
