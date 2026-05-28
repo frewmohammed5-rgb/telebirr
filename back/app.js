@@ -34,53 +34,24 @@ app.use((req, res, next) => {
 // Your existing routes
 app.post("/apply/h5token", function (req, res) {
   //authToken.authToken(req, res);
-  const data = JSON.stringify({
-    appSecret: config.appSecret
-  });
-  
-  // 2. Configure request options
-  const options = {
-    hostname: 'developerportal.ethiotelebirr.et',
-    port: 38443,
-    path: '/payment/v1/token',
-    method: 'POST',
+  fetch("https://developerportal.ethiotelebirr.et:38443/apiaccess/payment/gateway/payment/v1/token", {
+    method: "POST", // Capitalized POST is standard in Node
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(data),
-      'X-APP-Key': config.fabricAppId,
-    }
-  };
-  
-  // 3. Initialize the request
-  const req_ = https.request(options, (res_) => {
-    let responseData = '';
-  
-    // Consume response data in chunks
-    res_.on('data', (chunk) => {
-      responseData += chunk;
-    });
-  
-    // Handle fully received response
-    res_.on('end', () => {
-      console.log('Status Code:', res_.statusCode);
-      try {
-        const jsonResponse = JSON.parse(responseData);
-        res.send(jsonResponse);
-        console.log('Success:', jsonResponse);
-      } catch (e) {
-        console.log('Raw Response:', responseData);
-      }
-    });
-  });
-  
-  // 4. Handle connection or system errors
-  req_.on('error', (error) => {
-    console.error('Request Error:', error);
-  });
-  
-  // 5. Write data payload and close the connection
-  req_.write(data);
-  req_.end();
+        "Content-Type": "application/json",
+        "X-APP-Key": "c4182ef8-9249-458a-985e-06d191f4d505"
+    },
+    body: JSON.stringify({
+        appSecret: "fad0f06383c6297f545876694b974599"
+    })
+})
+.then(res => res.json())
+.then(json => {
+    console.log("response", json);
+})
+.catch(ex => {
+    console.error("error", ex);
+});
+
   
 });
 
