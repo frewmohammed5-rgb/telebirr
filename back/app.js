@@ -57,6 +57,8 @@ app.post("/apply/h5token", function (req, res) {
 
 app.post("/create/order", async (req, res) => {
   try {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    
     const resultRaq = await createOrder.createOrder(req, res);
     return res.send(resultRaq).status(200);
   } catch (error) {
